@@ -14,7 +14,7 @@ class AvaliacaoController extends Controller
      */
     public function index()
     {
-        //
+        return view("avaliacao.index");
     }
 
     /**
@@ -24,7 +24,7 @@ class AvaliacaoController extends Controller
      */
     public function create()
     {
-        //
+        return view("avaliacao.cadastro");
     }
 
     /**

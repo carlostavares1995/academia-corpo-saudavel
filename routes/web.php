@@ -56,3 +56,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'avaliacao'], function () {
     Route::post('/update', 'AvaliacaoController@update');
     Route::delete('/destroy', 'AvaliacaoController@destroy');
 });
+
+Route::group(['middleware' => 'auth', 'prefix' => 'relatorio'], function () {
+    Route::get('/', 'RelatorioController@index');
+    Route::get('/gerar', 'RelatorioController@gerar');
+});

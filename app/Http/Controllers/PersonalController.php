@@ -14,7 +14,7 @@ class PersonalController extends Controller
      */
     public function index()
     {
-        //
+        return view("personal.index");
     }
 
     /**
@@ -24,7 +24,7 @@ class PersonalController extends Controller
      */
     public function create()
     {
-        //
+        return view("personal.cadastro");
     }
 
     /**

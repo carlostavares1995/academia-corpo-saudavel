@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Ponto')
+@section('title', 'Aluno')
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Listagem de Pontos</h1>
+    <h1 class="m-0 text-dark">Listagem de Alunos</h1>
 @stop
 
 @section('content')
@@ -14,8 +14,8 @@
                     <p class="mb-0">__Listagem__</p>
                 </div>
                 <div class="card-footer text-center">
-                    <a type="button" class="btn btn-primary" href="/ponto/create">
-                        <i class="fa fa-plus"></i> Cadastrar Ponto
+                    <a type="button" class="btn btn-primary" href="/aluno/create">
+                        <i class="fa fa-plus"></i> Cadastrar Aluno
                     </a>
                 </div>
             </div>

@@ -24,7 +24,7 @@ class PontoController extends Controller
      */
     public function create()
     {
-        //
+        return view("ponto.cadastro");
     }
 
     /**
