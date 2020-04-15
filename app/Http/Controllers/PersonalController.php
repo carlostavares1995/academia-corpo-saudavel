@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Personal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class PersonalController extends Controller
 {
@@ -35,7 +37,17 @@ class PersonalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        DB::beginTransaction();
+        $result = Personal::storage($data);
+        DB::commit();
+
+        if ($result) {
+            return redirect('/personal')->with('message', 'Cadastro realizado com sucesso!');
+        }
+        Session::flash('error', "Erro ao cadastrar!");
+        return redirect('/personal');
     }
 
     /**

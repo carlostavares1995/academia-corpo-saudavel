@@ -21,4 +21,23 @@ class Endereco extends Model
         'logradouro',
         'numero',
     ];
+
+    public function setCepAttribute($value)
+    {
+        if ($value) {
+            $this->attributes['cep'] = preg_replace("/\D+/", "", $value);
+        } else {
+            $this->attributes['cep'] = $value;
+        }
+    }
+
+    // -- Funções Auxiliares --
+    static public function storage($data)
+    {
+        $endereco = new Endereco();
+        $endereco->fill($data);
+        $endereco->save();
+
+        return $endereco;
+    }
 }

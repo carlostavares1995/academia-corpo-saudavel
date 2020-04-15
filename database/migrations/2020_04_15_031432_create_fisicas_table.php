@@ -22,8 +22,8 @@ class CreateFisicasTable extends Migration
             $table->string('nome');
             $table->date('data_nascimento');
             $table->string('sexo'); // 'Masculino', 'Feminino'
-            $table->string('email')->nullable();
-            $table->integer('cpf')->nullable();
+            $table->string('email');
+            $table->string('cpf')->nullable();
             $table->string('rg')->nullable();
             $table->timestamps();
         });

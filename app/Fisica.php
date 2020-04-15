@@ -44,6 +44,15 @@ class Fisica extends Model
         }
     }
 
+    public function setCpfAttribute($value)
+    {
+        if ($value) {
+            $this->attributes['cpf'] = preg_replace("/\D+/", "", $value);
+        } else {
+            $this->attributes['cpf'] = $value;
+        }
+    }
+
     public function usuario()
     {
         return $this->belongsTo('App\User');
@@ -52,5 +61,20 @@ class Fisica extends Model
     public function endereco()
     {
         return $this->belongsTo('App\Endereco');
+    }
+
+    // -- Funções Auxiliares --
+    static public function storage($data)
+    {
+        $user = User::storage($data);
+        $data['usuario_id'] = $user->id;
+        $endereco = Endereco::storage($data);
+        $data['endereco_id'] = $endereco->id;
+
+        $fisica = new Fisica();
+        $fisica->fill($data);
+        $fisica->save();
+
+        return $fisica;
     }
 }

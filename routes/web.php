@@ -24,7 +24,7 @@ Route::get('/home', function() {
 Route::group(['middleware' => 'auth', 'prefix' => 'ponto'], function () {
     Route::get('/', 'PontoController@index');
     Route::get('/create', 'PontoController@create');
-    Route::post('/store', 'PontoController@store');
+    Route::post('/store', 'PontoController@store')->name('ponto.store');
     Route::get('/edit', 'PontoController@edit');
     Route::post('/update', 'PontoController@update');
     Route::delete('/destroy', 'PontoController@destroy');
@@ -42,7 +42,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'aluno'], function () {
 Route::group(['middleware' => 'auth', 'prefix' => 'personal'], function () {
     Route::get('/', 'PersonalController@index');
     Route::get('/create', 'PersonalController@create');
-    Route::post('/store', 'PersonalController@store');
+    Route::post('/store', 'PersonalController@store')->name('personal.store');
     Route::get('/edit', 'PersonalController@edit');
     Route::post('/update', 'PersonalController@update');
     Route::delete('/destroy', 'PersonalController@destroy');

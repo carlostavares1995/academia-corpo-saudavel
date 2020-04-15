@@ -43,4 +43,17 @@ class Personal extends Model
     {
         return $this->belongsTo('App\Fisica');
     }
+
+    // -- Funções Auxiliares --
+    static public function storage($data)
+    {
+        $fisica = Fisica::storage($data);
+        $data['fisica_id'] = $fisica->id;
+
+        $personal = new Personal();
+        $personal->fill($data);
+        $personal->save();
+
+        return $personal;
+    }
 }
