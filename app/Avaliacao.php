@@ -61,4 +61,45 @@ class Avaliacao extends Model
     {
         return $this->belongsTo('App\Aluno');
     }
+
+    // -- Funções Auxiliares --
+    static public function list()
+    {
+        $lista = Avaliacao::select(
+            'avaliacoes.id',
+            'alunos.matricula',
+            'avaliacoes.altura',
+            'avaliacoes.peso',
+            'avaliacoes.imc',
+            'avaliacoes.gordura',
+            'avaliacoes.data_avaliacao'
+        )
+            ->join('alunos', 'alunos.id', 'avaliacoes.aluno_id');
+
+        return $lista;
+    }
+
+    static public function storage($data)
+    {
+        $avaliacao = new Avaliacao();
+        $avaliacao->fill($data);
+        $avaliacao->save();
+
+        return $avaliacao;
+    }
+
+    static public function updateEdit($data, $id)
+    {
+        $avaliacao = Avaliacao::find($id);
+        $avaliacao->fill($data);
+        $avaliacao->save();
+
+        return $avaliacao;
+    }
+
+    static public function remove($id)
+    {
+        $avaliacao = Avaliacao::find($id);
+        $avaliacao->delete();
+    }
 }

@@ -2,84 +2,88 @@
 
 namespace App\Http\Controllers;
 
+use App\Aluno;
 use App\Avaliacao;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\DataTables;
 
 class AvaliacaoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    protected $folder = 'avaliacao';
+
     public function index()
     {
-        return view("avaliacao.index");
+        return view("$this->folder.index");
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function list()
+    {
+        $lista = Avaliacao::list();
+        return Datatables::of($lista)->make(true);
+    }
+
     public function create()
     {
-        return view("avaliacao.cadastro");
+        $alunos = Aluno::list()->get();
+        $dependencias = ["rota" => "/$this->folder/store", "alunos" => $alunos];
+        return view("$this->folder.cadastro")->with($dependencias);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        try {
+            $data = $request->all();
+
+            DB::beginTransaction();
+            $result = Avaliacao::storage($data);
+            DB::commit();
+
+            if ($result) {
+                return redirect("/$this->folder")->with('message', 'Cadastro realizado com sucesso!');
+            }
+            return redirect("/$this->folder")->with(['tipoMsg' => 'warning', 'message' => 'Erro ao realizar cadastro!']);
+        } catch (\Exception $e) {
+            return redirect("/$this->folder")->with(['tipoMsg' => 'danger', 'message' => 'Erro ao realizar cadastro!']);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Avaliacao  $avaliacao
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Avaliacao $avaliacao)
+    public function edit(Avaliacao $avaliacao, $id)
     {
-        //
+        $data = $avaliacao->find($id);
+        $alunos = Aluno::list()->get();
+        $dependencias = ["rota" => "/$this->folder/update/$id", "data" => $data, "alunos" => $alunos];
+        return view("$this->folder.cadastro")->with($dependencias);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Avaliacao  $avaliacao
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Avaliacao $avaliacao)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            $data = $request->all();
+
+            DB::beginTransaction();
+            $result = Avaliacao::updateEdit($data, $id);
+            DB::commit();
+
+            if ($result) {
+                return redirect("/$this->folder")->with('message', 'Edição realizada com sucesso!');
+            }
+            return redirect("/$this->folder")->with(['tipoMsg' => 'warning', 'message' => 'Erro ao realizar edição!']);
+        } catch (\Exception $e) {
+            return redirect("/$this->folder")->with(['tipoMsg' => 'danger', 'message' => 'Erro ao realizar edição!']);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Avaliacao  $avaliacao
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Avaliacao $avaliacao)
+    public function destroy($id)
     {
-        //
-    }
+        try {
+            DB::beginTransaction();
+            Avaliacao::remove($id);
+            DB::commit();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Avaliacao  $avaliacao
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Avaliacao $avaliacao)
-    {
-        //
+            return response()->json(true);
+        } catch (\Exception $e) {
+            return response()->json(false);
+        }
     }
 }

@@ -52,11 +52,12 @@ Route::group(['middleware' => 'auth', 'prefix' => 'personal'], function () {
 
 Route::group(['middleware' => 'auth', 'prefix' => 'avaliacao'], function () {
     Route::get('/', 'AvaliacaoController@index');
+    Route::get('/list', 'AvaliacaoController@list');
     Route::get('/create', 'AvaliacaoController@create');
     Route::post('/store', 'AvaliacaoController@store');
-    Route::get('/edit', 'AvaliacaoController@edit');
-    Route::post('/update', 'AvaliacaoController@update');
-    Route::delete('/destroy', 'AvaliacaoController@destroy');
+    Route::get('/edit/{id}', 'AvaliacaoController@edit');
+    Route::post('/update/{id}', 'AvaliacaoController@update');
+    Route::delete('/destroy/{id}', 'AvaliacaoController@destroy');
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => 'relatorio'], function () {
