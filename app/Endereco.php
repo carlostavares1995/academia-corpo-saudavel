@@ -40,4 +40,19 @@ class Endereco extends Model
 
         return $endereco;
     }
+
+    static public function updateEdit($data, $id)
+    {
+        $endereco = Endereco::find($id);
+        $endereco->fill($data);
+        $endereco->save();
+
+        return $endereco;
+    }
+
+    static public function remove($id)
+    {
+        $endereco = Endereco::find($id);
+        $endereco->delete();
+    }
 }

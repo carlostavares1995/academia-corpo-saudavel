@@ -41,11 +41,12 @@ Route::group(['middleware' => 'auth', 'prefix' => 'aluno'], function () {
 
 Route::group(['middleware' => 'auth', 'prefix' => 'personal'], function () {
     Route::get('/', 'PersonalController@index');
+    Route::get('/list', 'PersonalController@list');
     Route::get('/create', 'PersonalController@create');
     Route::post('/store', 'PersonalController@store')->name('personal.store');
-    Route::get('/edit', 'PersonalController@edit');
-    Route::post('/update', 'PersonalController@update');
-    Route::delete('/destroy', 'PersonalController@destroy');
+    Route::get('/edit/{id}', 'PersonalController@edit');
+    Route::post('/update/{id}', 'PersonalController@update');
+    Route::delete('/destroy/{id}', 'PersonalController@destroy');
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => 'avaliacao'], function () {

@@ -45,6 +45,20 @@ class Personal extends Model
     }
 
     // -- Funções Auxiliares --
+    static public function list()
+    {
+        $lista = Personal::select(
+            'personais.id',
+            'fisicas.cpf',
+            'fisicas.nome',
+            'fisicas.sexo',
+            'personais.data_admissao'
+        )
+            ->join('fisicas', 'fisicas.id', 'personais.fisica_id');
+
+        return $lista;
+    }
+
     static public function storage($data)
     {
         $fisica = Fisica::storage($data);
@@ -55,5 +69,25 @@ class Personal extends Model
         $personal->save();
 
         return $personal;
+    }
+
+    static public function updateEdit($data, $id)
+    {
+        $personal = Personal::find($id);
+        $fisica = Fisica::updateEdit($data, $personal->fisica_id);
+        $data['fisica_id'] = $fisica->id;
+
+        $personal->fill($data);
+        $personal->save();
+
+        return $personal;
+    }
+
+    static public function remove($id)
+    {
+        $personal = Personal::find($id);
+        $personal->delete();
+
+        Fisica::remove($personal->fisica_id);
     }
 }

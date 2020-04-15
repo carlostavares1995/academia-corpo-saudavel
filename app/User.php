@@ -48,4 +48,20 @@ class User extends Authenticatable
 
         return $user;
     }
+
+    static public function updateEdit($data, $id)
+    {
+        $user = User::find($id);
+        $user->name = $data['nome'];
+        $user->email = $data['email'];
+        $user->save();
+
+        return $user;
+    }
+
+    static public function remove($id)
+    {
+        $user = User::find($id);
+        $user->delete();
+    }
 }

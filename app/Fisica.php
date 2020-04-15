@@ -77,4 +77,27 @@ class Fisica extends Model
 
         return $fisica;
     }
+
+    static public function updateEdit($data, $id)
+    {
+        $fisica = Fisica::find($id);
+        $user = User::updateEdit($data, $fisica->usuario_id);
+        $data['usuario_id'] = $user->id;
+        $endereco = Endereco::updateEdit($data, $fisica->endereco_id);
+        $data['endereco_id'] = $endereco->id;
+
+        $fisica->fill($data);
+        $fisica->save();
+
+        return $fisica;
+    }
+
+    static public function remove($id)
+    {
+        $fisica = Fisica::find($id);
+        $fisica->delete();
+
+        User::remove($fisica->usuario_id);
+        Endereco::remove($fisica->endereco_id);
+    }
 }

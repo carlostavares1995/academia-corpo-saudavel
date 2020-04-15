@@ -5,36 +5,27 @@ namespace App\Http\Controllers;
 use App\Personal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
+use Yajra\DataTables\DataTables;
 
 class PersonalController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         return view("personal.index");
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function list()
     {
-        return view("personal.cadastro");
+        $lista = Personal::list();
+        return Datatables::of($lista)->make(true);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    public function create()
+    {
+        $dependencias = ["rota" => "/personal/store"];
+        return view("personal.cadastro")->with($dependencias);
+    }
+
     public function store(Request $request)
     {
         $data = $request->all();
@@ -46,52 +37,40 @@ class PersonalController extends Controller
         if ($result) {
             return redirect('/personal')->with('message', 'Cadastro realizado com sucesso!');
         }
-        Session::flash('error', "Erro ao cadastrar!");
-        return redirect('/personal');
+        return redirect('/personal')->with(['tipoMsg' => 'danger', 'message' => 'Erro ao realizar cadastro!']);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Personal  $personal
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Personal $personal)
+    public function edit(Personal $personal, $id)
     {
-        //
+        $data = $personal->find($id);
+        $dependencias = ["rota" => "/personal/update/$id", "data" => $data];
+        return view("personal.cadastro")->with($dependencias);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Personal  $personal
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Personal $personal)
+    public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+
+        DB::beginTransaction();
+        $result = Personal::updateEdit($data, $id);
+        DB::commit();
+
+        if ($result) {
+            return redirect('/personal')->with('message', 'Edição realizada com sucesso!');
+        }
+        return redirect('/personal')->with(['tipoMsg' => 'danger', 'message' => 'Erro ao realizar edição!']);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Personal  $personal
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Personal $personal)
+    public function destroy($id)
     {
-        //
-    }
+        try {
+            DB::beginTransaction();
+            Personal::remove($id);
+            DB::commit();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Personal  $personal
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Personal $personal)
-    {
-        //
+            return response()->json(true);
+        } catch (\Exception $e) {
+            return response()->json(false);
+        }
     }
 }
