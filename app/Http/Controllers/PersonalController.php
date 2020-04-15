@@ -9,9 +9,11 @@ use Yajra\DataTables\DataTables;
 
 class PersonalController extends Controller
 {
+    protected $folder = 'personal';
+
     public function index()
     {
-        return view("personal.index");
+        return view("$this->folder.index");
     }
 
     public function list()
@@ -22,43 +24,51 @@ class PersonalController extends Controller
 
     public function create()
     {
-        $dependencias = ["rota" => "/personal/store"];
-        return view("personal.cadastro")->with($dependencias);
+        $dependencias = ["rota" => "/$this->folder/store"];
+        return view("$this->folder.cadastro")->with($dependencias);
     }
 
     public function store(Request $request)
     {
-        $data = $request->all();
+        try {
+            $data = $request->all();
 
-        DB::beginTransaction();
-        $result = Personal::storage($data);
-        DB::commit();
+            DB::beginTransaction();
+            $result = Personal::storage($data);
+            DB::commit();
 
-        if ($result) {
-            return redirect('/personal')->with('message', 'Cadastro realizado com sucesso!');
+            if ($result) {
+                return redirect("/$this->folder")->with('message', 'Cadastro realizado com sucesso!');
+            }
+            return redirect("/$this->folder")->with(['tipoMsg' => 'warning', 'message' => 'Erro ao realizar cadastro!']);
+        } catch (\Exception $e) {
+            return redirect("/$this->folder")->with(['tipoMsg' => 'danger', 'message' => 'Erro ao realizar cadastro!']);
         }
-        return redirect('/personal')->with(['tipoMsg' => 'danger', 'message' => 'Erro ao realizar cadastro!']);
     }
 
     public function edit(Personal $personal, $id)
     {
         $data = $personal->find($id);
-        $dependencias = ["rota" => "/personal/update/$id", "data" => $data];
-        return view("personal.cadastro")->with($dependencias);
+        $dependencias = ["rota" => "/$this->folder/update/$id", "data" => $data];
+        return view("$this->folder.cadastro")->with($dependencias);
     }
 
     public function update(Request $request, $id)
     {
-        $data = $request->all();
+        try {
+            $data = $request->all();
 
-        DB::beginTransaction();
-        $result = Personal::updateEdit($data, $id);
-        DB::commit();
+            DB::beginTransaction();
+            $result = Personal::updateEdit($data, $id);
+            DB::commit();
 
-        if ($result) {
-            return redirect('/personal')->with('message', 'Edição realizada com sucesso!');
+            if ($result) {
+                return redirect("/$this->folder")->with('message', 'Edição realizada com sucesso!');
+            }
+            return redirect("/$this->folder")->with(['tipoMsg' => 'warning', 'message' => 'Erro ao realizar edição!']);
+        } catch (\Exception $e) {
+            return redirect("/$this->folder")->with(['tipoMsg' => 'danger', 'message' => 'Erro ao realizar edição!']);
         }
-        return redirect('/personal')->with(['tipoMsg' => 'danger', 'message' => 'Erro ao realizar edição!']);
     }
 
     public function destroy($id)

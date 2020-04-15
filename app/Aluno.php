@@ -66,4 +66,51 @@ class Aluno extends Model
     {
         return $this->belongsTo('App\Fisica');
     }
+
+    // -- Funções Auxiliares --
+    static public function list()
+    {
+        $lista = Aluno::select(
+            'alunos.id',
+            'alunos.matricula',
+            'fisicas.nome',
+            'fisicas.sexo',
+            'fisicas.data_nascimento'
+        )
+            ->join('fisicas', 'fisicas.id', 'alunos.fisica_id');
+
+        return $lista;
+    }
+
+    static public function storage($data)
+    {
+        $fisica = Fisica::storage($data);
+        $data['fisica_id'] = $fisica->id;
+
+        $aluno = new Aluno();
+        $aluno->fill($data);
+        $aluno->save();
+
+        return $aluno;
+    }
+
+    static public function updateEdit($data, $id)
+    {
+        $aluno = Aluno::find($id);
+        $fisica = Fisica::updateEdit($data, $aluno->fisica_id);
+        $data['fisica_id'] = $fisica->id;
+
+        $aluno->fill($data);
+        $aluno->save();
+
+        return $aluno;
+    }
+
+    static public function remove($id)
+    {
+        $aluno = Aluno::find($id);
+        $aluno->delete();
+
+        Fisica::remove($aluno->fisica_id);
+    }
 }

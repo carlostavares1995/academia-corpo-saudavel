@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <form id="form_ponto" role="form" method="POST" action="{{$rota}}">
+                <form id="form_primary" role="form" method="POST" action="{{$rota}}">
                     {{ csrf_field() }}
                     <div class="card-body">
                         <div class="row">
