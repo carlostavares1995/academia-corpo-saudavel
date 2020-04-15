@@ -24,7 +24,7 @@
                             <th>Altura</th>
                             <th>Peso</th>
                             <th>IMC</th>
-                            <th>Gordura</th>
+                            <th>Gordura %</th>
                             <th>Data Avaliação</th>
                             <th>Ação</th>
                         </tr>
