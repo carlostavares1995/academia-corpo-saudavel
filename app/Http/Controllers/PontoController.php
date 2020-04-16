@@ -2,73 +2,88 @@
 
 namespace App\Http\Controllers;
 
+use App\Fisica;
 use App\Ponto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\DataTables;
 
 class PontoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    protected $folder = 'ponto';
+
     public function index()
     {
-        return view("ponto.index");
+        return view("$this->folder.index");
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function list()
+    {
+        $lista = Ponto::list();
+        return Datatables::of($lista)->make(true);
+    }
+
     public function create()
     {
-        return view("ponto.cadastro");
+        $fisicas = Fisica::list()->get();
+        $dependencias = ["rota" => "/$this->folder/store", "fisicas" => $fisicas];
+        return view("$this->folder.cadastro")->with($dependencias);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        try {
+            $data = $request->all();
+
+            DB::beginTransaction();
+            $result = Ponto::storage($data);
+            DB::commit();
+
+            if ($result) {
+                return redirect("/$this->folder")->with('message', 'Cadastro realizado com sucesso!');
+            }
+            return redirect("/$this->folder")->with(['tipoMsg' => 'warning', 'message' => 'Erro ao realizar cadastro!']);
+        } catch (\Exception $e) {
+            return redirect("/$this->folder")->with(['tipoMsg' => 'danger', 'message' => 'Erro ao realizar cadastro!']);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Ponto  $ponto
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Ponto $ponto)
+    public function edit(Ponto $ponto, $id)
     {
-        //
+        $data = $ponto->find($id);
+        $fisicas = Fisica::list()->get();
+        $dependencias = ["rota" => "/$this->folder/update/$id", "data" => $data, "fisicas" => $fisicas];
+        return view("$this->folder.cadastro")->with($dependencias);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Ponto  $ponto
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Ponto $ponto)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            $data = $request->all();
+
+            DB::beginTransaction();
+            $result = Ponto::updateEdit($data, $id);
+            DB::commit();
+
+            if ($result) {
+                return redirect("/$this->folder")->with('message', 'Edição realizada com sucesso!');
+            }
+            return redirect("/$this->folder")->with(['tipoMsg' => 'warning', 'message' => 'Erro ao realizar edição!']);
+        } catch (\Exception $e) {
+            return redirect("/$this->folder")->with(['tipoMsg' => 'danger', 'message' => 'Erro ao realizar edição!']);
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Ponto  $ponto
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Ponto $ponto)
+    public function destroy($id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            Ponto::remove($id);
+            DB::commit();
+
+            return response()->json(true);
+        } catch (\Exception $e) {
+            return response()->json(false);
+        }
     }
 }

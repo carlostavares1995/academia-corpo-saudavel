@@ -23,11 +23,12 @@ Route::get('/home', function() {
 
 Route::group(['middleware' => 'auth', 'prefix' => 'ponto'], function () {
     Route::get('/', 'PontoController@index');
+    Route::get('/list', 'PontoController@list');
     Route::get('/create', 'PontoController@create');
-    Route::post('/store', 'PontoController@store')->name('ponto.store');
-    Route::get('/edit', 'PontoController@edit');
-    Route::post('/update', 'PontoController@update');
-    Route::delete('/destroy', 'PontoController@destroy');
+    Route::post('/store', 'PontoController@store');
+    Route::get('/edit/{id}', 'PontoController@edit');
+    Route::post('/update/{id}', 'PontoController@update');
+    Route::delete('/destroy/{id}', 'PontoController@destroy');
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => 'aluno'], function () {

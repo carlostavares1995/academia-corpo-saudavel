@@ -64,6 +64,16 @@ class Fisica extends Model
     }
 
     // -- Funções Auxiliares --
+    static public function list()
+    {
+        $lista = Fisica::select(
+            'fisicas.id',
+            'fisicas.nome'
+        );
+
+        return $lista;
+    }
+
     static public function storage($data)
     {
         $user = User::storage($data);
