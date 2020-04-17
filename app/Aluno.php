@@ -111,6 +111,7 @@ class Aluno extends Model
         $aluno = Aluno::find($id);
         $aluno->delete();
 
+        Ponto::where('fisica_id', $aluno->fisica_id)->delete();
         Fisica::remove($aluno->fisica_id);
     }
 }

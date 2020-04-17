@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Aluno;
+use App\Avaliacao;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
@@ -75,6 +76,7 @@ class AlunoController extends Controller
     {
         try {
             DB::beginTransaction();
+            Avaliacao::where('aluno_id', $id)->delete();
             Aluno::remove($id);
             DB::commit();
 
