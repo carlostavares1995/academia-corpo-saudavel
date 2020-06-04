@@ -16,9 +16,9 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label>Data Ponto</label>
-                                    <input name="data" type="text" class="mask-data form-control" placeholder="DD/MM/AAAA"
-                                           value="{{ isset($data->data_hora) ? substr($data->data_hora, 0, -6) : '' }}">
+                                    <textarea id="mytextarea" name="content">
+                                        {{ $data->content ?? 'Hello, World!' }}
+                                    </textarea>
                                 </div>
                             </div>
                         </div>
@@ -38,10 +38,14 @@
 @stop
 
 @section('js')
+    <script src="https://cdn.tiny.cloud/1/nudfsr4edvx6xlc4lxxco4d6ktl9u7sspog2bajhyey523y8/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
-        $(document).ready(function() {
-            $('.mask-data').inputmask("99/99/9999");
-            $('.mask-hora').inputmask("99:99");
+        tinymce.init({
+            selector: '#mytextarea',
+            toolbar: "image,paste",
+            plugins: "image,paste",
+            menubar: "insert,edit",
+            paste_data_images: true,
         });
     </script>
 @stop

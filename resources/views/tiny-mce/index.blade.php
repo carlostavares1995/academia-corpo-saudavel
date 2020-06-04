@@ -74,7 +74,7 @@
                 }
             },
             columns: [
-                {data: 'content', name: 'tinys.content'},
+                {data: 'id', name: 'tinys.id'},
                 {
                     "mRender": function (data, type, full) {
                         var buttons = "";

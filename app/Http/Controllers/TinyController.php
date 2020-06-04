@@ -46,4 +46,11 @@ class TinyController extends Controller
             return redirect("/$this->folder")->with(['tipoMsg' => 'danger', 'message' => 'Erro ao realizar cadastro!']);
         }
     }
+
+    public function edit(Tiny $tiny, $id)
+    {
+        $data = $tiny->find($id);
+        $dependencias = ["rota" => "/$this->folder/update/$id", "data" => $data];
+        return view("$this->folder.cadastro")->with($dependencias);
+    }
 }
