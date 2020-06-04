@@ -61,6 +61,16 @@ Route::group(['middleware' => 'auth', 'prefix' => 'avaliacao'], function () {
     Route::delete('/destroy/{id}', 'AvaliacaoController@destroy');
 });
 
+Route::group(['middleware' => 'auth', 'prefix' => 'tiny-mce'], function () {
+    Route::get('/', 'TinyController@index');
+    Route::get('/list', 'TinyController@list');
+    Route::get('/create', 'TinyController@create');
+    Route::post('/store', 'TinyController@store');
+    Route::get('/edit/{id}', 'TinyController@edit');
+    Route::post('/update/{id}', 'TinyController@update');
+    Route::delete('/destroy/{id}', 'TinyController@destroy');
+});
+
 Route::group(['middleware' => 'auth', 'prefix' => 'relatorio'], function () {
     Route::get('/', 'RelatorioController@index');
     Route::get('/gerar', 'RelatorioController@gerar');

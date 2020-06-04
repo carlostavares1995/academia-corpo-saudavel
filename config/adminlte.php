@@ -242,6 +242,11 @@ return [
             'icon'        => 'fas fa-fw fa-user',
         ],
         [
+            'text'        => 'TinyMCE',
+            'url'         => 'tiny-mce',
+            'icon'        => 'fas fa-fw fa-user',
+        ],
+        [
             'text'        => 'Relatório',
             'url'         => 'relatorio',
             'icon'        => 'fas fa-fw fa-user',
