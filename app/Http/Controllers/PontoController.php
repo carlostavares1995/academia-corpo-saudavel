@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Fisica;
-use App\Ponto;
+use App\Models\Fisica;
+use App\Models\Ponto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;

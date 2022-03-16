@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Aluno;
-use App\Avaliacao;
+use App\Models\Aluno;
+use App\Models\Avaliacao;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;

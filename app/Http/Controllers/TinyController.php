@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Tiny;
+use App\Models\Tiny;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;

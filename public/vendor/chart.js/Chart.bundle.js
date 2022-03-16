@@ -1532,7 +1532,7 @@ function getAlpha(string) {
 // generators
 function hexString(rgba, a) {
    var a = (a !== undefined && rgba.length === 3) ? a : rgba[3];
-   return "#" + hexDouble(rgba[0]) 
+   return "#" + hexDouble(rgba[0])
               + hexDouble(rgba[1])
               + hexDouble(rgba[2])
               + (
@@ -5896,7 +5896,7 @@ var controller_line = core_datasetController.extend({
 			line._datasetIndex = me.index;
 			// Data
 			line._children = points;
-			// Model
+			// Models
 			line._model = me._resolveDatasetElementOptions(line);
 
 			line.pivot();
@@ -6509,7 +6509,7 @@ var controller_radar = core_datasetController.extend({
 		// Data
 		line._children = points;
 		line._loop = true;
-		// Model
+		// Models
 		line._model = me._resolveDatasetElementOptions(line);
 
 		line.pivot();

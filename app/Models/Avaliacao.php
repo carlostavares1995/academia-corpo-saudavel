@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -59,7 +59,7 @@ class Avaliacao extends Model
 
     public function aluno()
     {
-        return $this->belongsTo('App\Aluno');
+        return $this->belongsTo('App\Models\Aluno');
     }
 
     // -- Funções Auxiliares --
