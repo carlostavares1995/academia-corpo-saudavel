@@ -2,13 +2,13 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\User;
+use App\Models\User;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
-| Model Factories
+| Models Factories
 |--------------------------------------------------------------------------
 |
 | This directory should contain each of the model factory definitions for

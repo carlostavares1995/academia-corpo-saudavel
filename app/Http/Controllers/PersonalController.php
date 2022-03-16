@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Personal;
+use App\Models\Personal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;

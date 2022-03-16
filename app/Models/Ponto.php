@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -42,7 +42,7 @@ class Ponto extends Model
 
     public function fisica()
     {
-        return $this->belongsTo('App\Fisica');
+        return $this->belongsTo('App\Models\Fisica');
     }
 
     // -- Funções Auxiliares --

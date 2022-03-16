@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -55,12 +55,12 @@ class Fisica extends Model
 
     public function usuario()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Models\User');
     }
 
     public function endereco()
     {
-        return $this->belongsTo('App\Endereco');
+        return $this->belongsTo('App\Models\Endereco');
     }
 
     // -- Funções Auxiliares --
